@@ -46,7 +46,7 @@
 #include <soc/qcom/ramdump.h>
 #include "icnss_private.h"
 #include "icnss_qmi.h"
-#include <linux/project_info.h>
+#include <linux/oem/project_info.h>
 static u32 fw_version;
 static u32 fw_version_ext;
 
