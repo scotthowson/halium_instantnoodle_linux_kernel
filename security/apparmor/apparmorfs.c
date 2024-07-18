@@ -361,7 +361,6 @@ static void aafs_remove(struct dentry *dentry)
 			simple_rmdir(dir, dentry);
 		else
 			simple_unlink(dir, dentry);
-		d_delete(dentry);
 		dput(dentry);
 	}
 	inode_unlock(dir);
@@ -758,13 +757,13 @@ static ssize_t query_label(char *buf, size_t buf_len,
 		if (profile->file.dfa && *match_str == AA_CLASS_FILE) {
 			dfa = profile->file.dfa;
 			state = aa_dfa_match_len(dfa, profile->file.start,
-				match_str + 1, match_len - 1);
+						 match_str + 1, match_len - 1);
 		} else if (profile->policy.dfa) {
 			if (!PROFILE_MEDIATES_SAFE(profile, *match_str))
 				continue;	/* no change to current perms */
 			dfa = profile->policy.dfa;
 			state = aa_dfa_match_len(dfa, profile->policy.start[0],
-				match_str, match_len);
+						 match_str, match_len);
 		}
 		if (state)
 			aa_compute_perms(dfa, state, &tmp);
@@ -2243,6 +2242,7 @@ static struct aa_sfs_entry aa_sfs_entry_ns[] = {
 static struct aa_sfs_entry aa_sfs_entry_dbus[] = {
 	AA_SFS_FILE_STRING("mask", "acquire send receive"),
 	{ }
+};
 
 static struct aa_sfs_entry aa_sfs_entry_query_label[] = {
 	AA_SFS_FILE_STRING("perms", "allow deny audit quiet"),
